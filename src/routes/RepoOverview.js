@@ -6,9 +6,9 @@ export default class RepoOverview extends React.Component {
 
   renderCard(name){
     return(
-      <div className="card">
+      <a className="card">
         <p style={{color: '#303030'}}>{name}</p>
-      </div>
+      </a>
     )
   }
 
