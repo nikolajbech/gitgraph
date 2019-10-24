@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import firebase from 'firebase';
+import StyledFirebaseAuth from 'react-firebase/StyledFirebaseAuth';
+
 function App() {
   return (
     <div className="App">
