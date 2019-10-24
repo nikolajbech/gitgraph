@@ -15,31 +15,60 @@ export default class Home extends React.Component {
     this.setState({ files })
   }
 
-  renderDragAndDropArea() {
-    return (
-      <div class='dragAndDrop' onDragOver={this.onDrag} onDrop={this.onDrop}>
-        <p>Drop your repo here</p>
-      </div>
-    )
-  }
-
   handleFileChange = async (e) => {
+    const denpendencyObject = {}
     const files = e.target.files
-    console.log(e.target.files)
+    //console.log(e.target.files)
     for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader()
-      reader.onload = event => console.log(event.target.result) // desired file content
-      reader.onerror = error => console.log(error) // desired file content
-      reader.readAsText(files[i])
+
+      if (files[i].name.endsWith('.js')) {
+        const fileName = files[i].name
+        denpendencyObject[fileName] = []
+
+        const reader = new FileReader()
+        reader.onload = event => {
+          const text = event.target.result.replace('\"', '\'')
+          //console.log(text)
+          const textSplitted = text.split(' ').join(',').split('\n').join(',').split(',')
+
+          let lookForDependency = false
+
+          for (let j = 0; j < textSplitted.length; j++) {
+            if (textSplitted[j] === 'import') {
+              lookForDependency = true
+            }
+
+            if (lookForDependency) {
+              if (textSplitted[j].startsWith('\'')) {
+                const dependency = textSplitted[j].substring(
+                  textSplitted[j].indexOf("\'") + 1,
+                  textSplitted[j].lastIndexOf("\'")
+                )
+
+                if (dependency.length > 2) {
+                  console.log(fileName, 'uses', dependency)
+                  denpendencyObject[fileName].push(dependency)
+                }
+
+                lookForDependency = false
+              }
+            }
+          }
+
+        }
+        reader.onerror = error => console.log(error) // desired file content
+        reader.readAsText(files[i])
+      }
     }
+
+    console.log(denpendencyObject.toString())
 
   }
 
   render() {
     return (
       <div>
-        {this.renderDragAndDropArea()}
-        <input directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
+        <input style={{ color: '#333' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
       </div>
     )
   }
