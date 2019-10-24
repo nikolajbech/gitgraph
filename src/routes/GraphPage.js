@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import Vertex from '../components/Vertex';
 
-export default class GraphPage extends React.Component {
+export default class GraphPage extends React.Component { 
   render() {
-    return <h1>GraphPage</h1>
+    return <h1> </h1>
   }
 }
