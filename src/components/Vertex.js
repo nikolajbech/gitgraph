@@ -1,19 +1,15 @@
 import React from 'react';
 
 
+export default class Vertex extends React.Component{
 
-function Vertex (props) { 
-   let vertices= [];   
-};
+    addDependency(v){
+        return {
+            vertices : [...Array.apply(v) ],
+        };
+    }
 
-function addVertex(v){
 
 }
-
-const filename = "test.git";
-const dependendcies = ["test","egwgew",]
-
-export default Vertex;
-
 
 
