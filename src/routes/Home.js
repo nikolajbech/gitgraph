@@ -2,6 +2,9 @@ import React from 'react'
 import { Button, Intent, Spinner } from "@blueprintjs/core";
 import '../styles/Home.css'
 
+import firebase from 'firebase';
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
 export default class Home extends React.Component {
   render() {
     return(
