@@ -1,55 +1,51 @@
 import React from 'react'
-import { ForceGraph2D, ForceGraph3D, ForceGraphVR } from 'react-force-graph';
+
+import firebase from 'firebase';
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyCTEYl4ZF6SXsQ3rqu1OUTQnlcYRsGBG8M",
+  authDomain: "gitgraphpro.firebaseapp.com"
+})
 
 export default class Login extends React.Component {
+  state={isSignedIn: false}
+  uiConfig = {
+    signInFlow: "popup", 
+    signInOptions: [
+      firebase.auth.GithubAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  }
 
-  genRandomTree(N = 300, reverse = false) {
-    return {
-      nodes: [...Array(N).keys()].map(i => ({ id: i })),
-        links: [...Array(N).keys()]
-      .filter(id => id)
-      .map(id => ({
-        [reverse ? 'target' : 'source']: id,
-        [reverse ? 'source' : 'target']: Math.round(Math.random() * (id-1))
-      }))
-    };
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isSignedIn: !!user})
+      console.log("user",user)
+    })
   }
 
   render() {
-
-    const myData = {
-      "nodes": [ 
-          { 
-            "id": "id1",
-            "name": "App.js",
-            "val": 10
-          },
-          { 
-            "id": "id2",
-            "name": "Component2.js",
-            "val": 10 
-          }
-      ],
-      "links": [
-          {
-              "source": "id1",
-              "target": "id2"
-          }
-      ]
-    }
-
-    const GROUPS = 12;
-    const gData = this.genRandomTree();
-
-    return (
+    return(
       <div>
-        <ForceGraph3D
-          backgroundColor={"#eeeeee"}
-          graphData={gData}
-          nodeAutoColorBy={d => d.id%GROUPS}
-          linkAutoColorBy={d => gData.nodes[d.source].id%GROUPS}
-          linkWidth={2}
+      {this.state.isSignedIn ? (
+        <span>
+          <div>Signed In!</div>
+          <button Intent="success" onClick={() => firebase.auth().signOut()}>Sign out!</button>
+          <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
+          <img
+            alt="profile picture"
+            src={firebase.auth().currentUser.photoURL}
+          />
+        </span>
+      ) : (
+        <StyledFirebaseAuth
+          uiConfig={this.uiConfig}
+          firebaseAuth={firebase.auth()}
         />
+      )}
       </div>
     )
   }
