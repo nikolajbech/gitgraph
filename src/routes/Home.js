@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { Button, Intent, Spinner } from "@blueprintjs/core";
-import '../styles/Home.css'
+import '../styles/Home.css';
 
 export default class Home extends React.Component {
-
   onDrag = event => {
     event.preventDefault()
   }
+
 
   onDrop = event => {
     event.preventDefault()
