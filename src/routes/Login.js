@@ -2,9 +2,12 @@ import React from 'react'
 
 import firebase from 'firebase';
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { FIREBASE_API_KEY } from '../config';
+
+import { FBButton } from '../components/FBButton';
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCTEYl4ZF6SXsQ3rqu1OUTQnlcYRsGBG8M",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "gitgraphpro.firebaseapp.com"
 })
 
@@ -33,13 +36,15 @@ export default class Login extends React.Component {
       {this.state.isSignedIn ? (
         <span>
           <div>Signed In!</div>
-          <button onClick={() => firebase.auth().signOut()}>Sign out!</button>
+          <FBButton fb={firebase} />
           <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
           <img
             alt="profile picture"
             src={firebase.auth().currentUser.photoURL}
           />
         </span>
+
+
       ) : (
         <StyledFirebaseAuth
           uiConfig={this.uiConfig}
