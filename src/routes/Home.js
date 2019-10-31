@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { Button, Intent, Spinner } from "@blueprintjs/core";
-import '../styles/Home.css'
+import '../styles/Home.css';
+import { FBButton } from '../Components/FBButton';
 
 import firebase from 'firebase';
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { FIREBASE_API_KEY } from '../config';
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCTEYl4ZF6SXsQ3rqu1OUTQnlcYRsGBG8M",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "gitgraphpro.firebaseapp.com"
 })
 
@@ -35,13 +37,15 @@ export default class Home extends React.Component {
       {this.state.isSignedIn ? (
         <span>
           <div>Signed In!</div>
-          <button Intent="success" onClick={() => firebase.auth().signOut()}>Sign out!</button>
+          <FBButton fb={firebase} />
           <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
           <img
             alt="profile picture"
             src={firebase.auth().currentUser.photoURL}
           />
         </span>
+
+
       ) : (
         <StyledFirebaseAuth
           uiConfig={this.uiConfig}
