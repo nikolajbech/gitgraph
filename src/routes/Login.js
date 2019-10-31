@@ -5,6 +5,7 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { FIREBASE_API_KEY } from '../config';
 
 import { FBButton } from '../components/FBButton';
+import { FBImage } from '../components/FBImage';
 
 firebase.initializeApp({
   apiKey: FIREBASE_API_KEY,
@@ -38,10 +39,7 @@ export default class Login extends React.Component {
           <div>Signed In!</div>
           <FBButton fb={firebase} />
           <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
-          <img
-            alt="profile picture"
-            src={firebase.auth().currentUser.photoURL}
-          />
+          <FBImage fb={firebase} />
         </span>
 
 
