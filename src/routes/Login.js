@@ -13,9 +13,9 @@ firebase.initializeApp({
 })
 
 export default class Login extends React.Component {
-  state={isSignedIn: false}
+  state = { isSignedIn: false }
   uiConfig = {
-    signInFlow: "popup", 
+    signInFlow: "popup",
     signInOptions: [
       firebase.auth.GithubAuthProvider.PROVIDER_ID
     ],
@@ -26,29 +26,29 @@ export default class Login extends React.Component {
 
   componentDidMount = () => {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isSignedIn: !!user})
-      console.log("user",user)
+      this.setState({ isSignedIn: !!user })
+      console.log("user", user)
     })
   }
 
   render() {
-    return(
+    return (
       <div>
-      {this.state.isSignedIn ? (
-        <span>
-          <div>Signed In!</div>
-          <FBButton fb={firebase} />
-          <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
-          <FBImage fb={firebase} />
-        </span>
+        {this.state.isSignedIn ? (
+          <span>
+            <div>Signed In!</div>
+            <FBButton fb={firebase} />
+            <h1>Welcome {firebase.auth().currentUser.displayName}</h1>
+            <FBImage fb={firebase} />
+          </span>
 
 
-      ) : (
-        <StyledFirebaseAuth
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      )}
+        ) : (
+            <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
+          )}
       </div>
     )
   }
