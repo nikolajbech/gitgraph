@@ -104,7 +104,6 @@ export default class GraphPage extends React.Component {
       })
     })
 
-
     return {
       nodes: nodesNameToReturn,
       links: linksArray,
@@ -113,28 +112,6 @@ export default class GraphPage extends React.Component {
 
 
   render() {
-    const myData = {
-      "nodes": [
-        {
-          "id": "id1",
-          "name": "App.js",
-          "val": 10
-        },
-        {
-          "id": "id2",
-          "name": "Component2.js",
-          "val": 10
-        }
-      ],
-      "links": [
-        {
-          "source": "id1",
-          "target": "id2"
-        }
-      ]
-    }
-
-    const GROUPS = 12;
     let gData = this.state.gData
 
     return (
@@ -144,7 +121,7 @@ export default class GraphPage extends React.Component {
             const gData = this.createTree(this.state.nodes)
             console.log(gData)
             this.setState({ gData })
-          }}>Hej</button>
+          }}>Update graph</button>
           <input style={{ color: '#333' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
         </div>
         {
