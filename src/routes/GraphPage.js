@@ -85,18 +85,28 @@ export default class GraphPage extends React.Component {
     //Create links:
     const linksArray = []
     nodesFromFiles.forEach((node) => {
+      const nodeName = node.nodes
       node.getLinks().forEach((link) => {
-        console.log(link, node.nodes)
+        console.log(link, node.nodes, availableNodes.includes(link))
         if (availableNodes.includes(link)) {
           linksArray.push({
-            "source": node.nodes,
+            "source": nodeName,
             "target": link
           })
         }
       })
     })
+    const nodesNameToReturn = []
+    nodesFromFiles.forEach((node) => {
+      nodesNameToReturn.push({
+        "name": node.nodes,
+        "id": node.nodes
+      })
+    })
+
+
     return {
-      nodes: nodesFromFiles.map(node => ({ 'id': node.fileName, 'name': node.fileName })),
+      nodes: nodesNameToReturn,
       links: linksArray,
     }
   }
