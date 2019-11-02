@@ -18,7 +18,6 @@ export default class Home extends React.Component {
   handleFileChange = async (e) => {
     const denpendencyObject = {}
     const files = e.target.files
-    //console.log(e.target.files)
     for (let i = 0; i < files.length; i++) {
 
       if (files[i].name.endsWith('.js')) {
@@ -28,41 +27,28 @@ export default class Home extends React.Component {
         const reader = new FileReader()
         reader.onload = event => {
           const text = event.target.result.replace('\"', '\'')
-          //console.log(text)
           const textSplitted = text.split(' ').join(',').split('\n').join(',').split(',')
-
           let lookForDependency = false
 
           for (let j = 0; j < textSplitted.length; j++) {
-            if (textSplitted[j] === 'import') {
-              lookForDependency = true
-            }
-
+            if (textSplitted[j] === 'import') lookForDependency = true
             if (lookForDependency) {
               if (textSplitted[j].startsWith('\'')) {
                 const dependency = textSplitted[j].substring(
                   textSplitted[j].indexOf("\'") + 1,
                   textSplitted[j].lastIndexOf("\'")
                 )
-
-                if (dependency.length > 2) {
-                  console.log(fileName, 'uses', dependency)
-                  denpendencyObject[fileName].push(dependency)
-                }
-
+                if (dependency.length > 2) denpendencyObject[fileName].push(dependency)
                 lookForDependency = false
               }
             }
           }
-
         }
         reader.onerror = error => console.log(error) // desired file content
         reader.readAsText(files[i])
       }
     }
-
     console.log(denpendencyObject.toString())
-
   }
 
   render() {
