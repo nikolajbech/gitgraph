@@ -1,7 +1,6 @@
 import React from 'react';
-import { ForceGraph2D, ForceGraph3D, ForceGraphVR } from 'react-force-graph';
+import { ForceGraph3D } from 'react-force-graph';
 import '../styles/GraphPage.css'
-import UploadAndReadFile from '../components/UploadAndReadFile'
 import Node from '../components/Node'
 
 
