@@ -68,9 +68,7 @@ export default class GraphPage extends React.Component {
       }
     })
     const newArray = []
-    this.state.nodes.forEach((el) => {
-      newArray.push(el)
-    })
+    this.state.nodes.forEach((el) => { newArray.push(el) })
     newArray.push(node)
     this.setState({ nodes: newArray })
     return node
@@ -96,6 +94,8 @@ export default class GraphPage extends React.Component {
         }
       })
     })
+
+    //Create nodes:
     const nodesNameToReturn = []
     nodesFromFiles.forEach((node) => {
       nodesNameToReturn.push({
@@ -109,7 +109,6 @@ export default class GraphPage extends React.Component {
       links: linksArray,
     }
   }
-
 
   render() {
     let gData = this.state.gData
