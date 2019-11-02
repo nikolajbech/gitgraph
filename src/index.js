@@ -41,6 +41,9 @@ export default class Nav extends React.Component {
                       <Link to="/signup">
                         <Button className="bp3-minimal" text="Settings" />
                       </Link>
+                      <Link to="/graphpage">
+                        <Button className="bp3-minimal" text="GitGraph" />
+                      </Link>
                   </Navbar.Group>
               </Navbar>
               <div className="body">
