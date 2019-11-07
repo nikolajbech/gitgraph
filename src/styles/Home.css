@@ -1,0 +1,13 @@
+.dragAndDrop {
+    background-color: #ffffff;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: calc(10px + 2vmin);
+    color: #333;
+    border-style: dotted;
+    border-color: #404040;
+    height: 200px;
+    width: 600px;
+  }

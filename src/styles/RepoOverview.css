@@ -1,0 +1,24 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+}
+
+.box {
+    margin: auto;
+}
+
+.card {
+    padding: 50px;
+    width: 400px;
+    background-color: #ffffff;
+    transition: 0.5s;
+    margin: 30px;
+    border-radius: 8px;
+}
+
+.card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: 0.5s;
+}
