@@ -1,8 +1,7 @@
 import React from 'react';
-import { ForceGraph3D } from 'react-force-graph';
+import { ForceGraph3D, ForceGraph2D } from 'react-force-graph';
 import '../styles/GraphPage.css'
 import Node from '../components/Node'
-
 
 export default class GraphPage extends React.Component {
   constructor(props) {
@@ -122,12 +121,10 @@ export default class GraphPage extends React.Component {
           }}>Update graph</button>
           <input style={{ color: '#333' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
         </div>
-        {
-          <ForceGraph3D
+        {<ForceGraph2D
             graphData={gData}
             linkWidth={2}
-          />
-        }
+          />}
       </div>
     )
   }
