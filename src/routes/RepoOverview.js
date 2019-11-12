@@ -7,18 +7,24 @@ export default class RepoOverview extends React.Component {
     super(props);
     this.state = {
       repos: [],
-      username: "nikolajbech"
+      username: "nikolajbech",
+      header: {"headers":
+        {
+          "Authorization": "Bearer *insert token here!*"
+        }
+      }
     }
   }
 
   componentDidMount = async () => {
     //this.getReposByUsername(this.state.username)
-    this.getFilesByUsernameAndRepoName("nikolajbech","gitgraph","")
+    //this.getFilesByUsernameAndRepoName("nikolajbech","gitgraph","")
+    this.getFileByRawURL("https://raw.githubusercontent.com/nikolajbech/gitgraph/develop/src/index.js")
   }
 
   getReposByUsername(username){
     const url = `https://api.github.com/users/${username}/repos`
-    fetch(url)
+    fetch(url, this.state.header)
     .then(response => response.json())
     .then(data => {this.setState({repos: data})})
   }
@@ -26,7 +32,7 @@ export default class RepoOverview extends React.Component {
   getFilesByUsernameAndRepoName = async (username, reponame, path) => {
     const fileRawsUrls = []
     const url = `https://api.github.com/repos/${username}/${reponame}/contents/${path}`
-    fetch(url)
+    fetch(url, this.state.header)
     .then(response => response.json())
     .then(data => {
       data.forEach((obj) => {
@@ -45,13 +51,15 @@ export default class RepoOverview extends React.Component {
   }
 
   getFileByRawURL(rawURL){
-
+    fetch(rawURL)
+    .then(response => response.json())
+    .then(data => {console.log(data)})
   }
   
   renderCard(name){
     return(
       <a className="card"
-      onClick={() => console.log(name)}
+      onClick={() => this.getFilesByUsernameAndRepoName("nikolajbech",name,"")}
       >
         <p style={{color: '#303030'}}>{name}</p>
       </a>
