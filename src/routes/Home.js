@@ -6,8 +6,10 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div>
-
+      <div className={"bg"}>
+        <div className={"signin"}>
+          <p>HEJFAOIEFJOAIEJ</p>
+        </div>
       </div>
     )
   }
