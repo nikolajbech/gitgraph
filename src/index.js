@@ -28,7 +28,7 @@ export default class Nav extends React.Component {
     return (
       <Router>
         <div>
-          <Navbar>
+          {/*<Navbar>
             <Navbar.Group align={Alignment.LEFT}>
               <Navbar.Heading>GitGraph</Navbar.Heading>
               <Navbar.Divider />
@@ -45,7 +45,7 @@ export default class Nav extends React.Component {
                 <Button className="bp3-minimal" text="GitGraph" />
               </Link>
             </Navbar.Group>
-          </Navbar>
+          </Navbar>*/}
           <div className="body">
             <Route exact path="/" component={Home} />
             <Route path="/signup" component={SignUp} />
