@@ -14,17 +14,17 @@ export default class GraphPage extends React.Component {
           {
             "id": "id1",
             "name": "App.js",
-            "val": 10
+            "val": 3
           },
           {
             "id": "id2",
             "name": "Component2.css",
-            "val": 10
+            "val": 7
           },
           {
             "id": "id3",
             "name": "Component5.hello",
-            "val": 10
+            "val": 15
           }
         ],
         "links": [
@@ -119,19 +119,6 @@ export default class GraphPage extends React.Component {
   }
 
  
-  setColor(node){
-    console.log("node split " + node.split(".")[-1]);
-    return node.split(".")[-1]; 
-    /* if (extension.endsWith('.js')){
-      return '#333';
-    }
-    if (extension.endsWith('.css')){
-      return '#222';
-    }
-    else return '#000'; */
-  }
-
- 
   render() {
     let gData = this.state.gData
     const GROUPS = 2;
@@ -150,8 +137,9 @@ export default class GraphPage extends React.Component {
             {          
               <ForceGraph3D              
                 graphData={gData}
-                linkWidth={2}                  
-                nodeAutoColorBy={n => n.name.split('.')[1]}          
+                linkWidth={4}                  
+                nodeAutoColorBy={n => n.name.split('.')[1]}   
+        
               />
             }
       </div>
