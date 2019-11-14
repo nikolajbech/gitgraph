@@ -18,7 +18,12 @@ export default class GraphPage extends React.Component {
           },
           {
             "id": "id2",
-            "name": "Component2.js",
+            "name": "Component2.css",
+            "val": 10
+          },
+          {
+            "id": "id3",
+            "name": "Component5.hello",
             "val": 10
           }
         ],
@@ -26,6 +31,10 @@ export default class GraphPage extends React.Component {
           {
             "source": "id1",
             "target": "id2"
+          },
+          {
+            "source": "id2",
+            "target": "id3"
           }
         ]
       },
@@ -109,9 +118,23 @@ export default class GraphPage extends React.Component {
     }
   }
 
+ 
+  setColor(node){
+    console.log("node split " + node.split(".")[-1]);
+    return node.split(".")[-1]; 
+    /* if (extension.endsWith('.js')){
+      return '#333';
+    }
+    if (extension.endsWith('.css')){
+      return '#222';
+    }
+    else return '#000'; */
+  }
+
+ 
   render() {
     let gData = this.state.gData
-
+    const GROUPS = 2;
     return (
       <div>
         <div>
@@ -120,14 +143,17 @@ export default class GraphPage extends React.Component {
             console.log(gData)
             this.setState({ gData })
           }}>Update graph</button>
-          <input style={{ color: '#333' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
-        </div>
-        {
-          <ForceGraph3D
-            graphData={gData}
-            linkWidth={2}
-          />
-        }
+          {/* Change node colors */}
+          <input style={{ color: '#000' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
+       
+        </div>                    
+            {          
+              <ForceGraph3D              
+                graphData={gData}
+                linkWidth={2}                  
+                nodeAutoColorBy={n => n.name.split('.')[1]}          
+              />
+            }
       </div>
     )
   }
