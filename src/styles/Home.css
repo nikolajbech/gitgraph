@@ -11,7 +11,18 @@
 
 .signin {
   background-color: white;
-  height: 300px;
-  width: 400px;
-  display: block;
+  width: 300px;
+  margin-left: 100px;
+  align-self: center;
+  border-radius: 10px;
+}
+
+.fetch {
+  background-color: #98C67B;
+  width: 300px;
+  height: 70px;
+  align-self: flex-end;
+  margin-top: 70px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
