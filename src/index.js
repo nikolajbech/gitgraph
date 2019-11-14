@@ -1,60 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router-dom'
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-import { Tab, Tabs } from "@blueprintjs/core";
 
 import Home from './routes/Home'
-import SignUp from './routes/SignUp'
-import Login from './routes/Login'
 import RepoOverview from './routes/RepoOverview'
 import GraphPage from './routes/GraphPage'
-import {
-  Alignment,
-  Button,
-  Classes,
-  H5,
-  Navbar,
-  NavbarDivider,
-  NavbarGroup,
-  NavbarHeading,
-  Switch,
-} from "@blueprintjs/core";
+import gitHubApi from './api/GitHubApi'
 
 export default class Nav extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPage: "Home",
+      nameValue: 'nikolajbech',
+      tokenValue: '96cc711d856507f2ec65cf313bf9697d46bc062a',
+      repos: null
+    }
+  }
+  
+  nameHandleChange(event) {
+    this.setState({nameValue: event.target.value});
+  }
+
+  tokenHandleChange(event) {
+    this.setState({tokenValue: event.target.value});
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    let repos = null
+    try{
+      repos = await gitHubApi.getReposByUsername(this.state.nameValue, this.state.tokenValue)
+      console.log(repos)
+      this.setState({repos, currentPage: 'RepoOverview'})
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  onCardClicked(name) {
+    console.log(name)
+  }
+
+  renderPage(){
+    switch(this.state.currentPage){
+      case("Home"): return (
+        <Home
+        nameHandleChange={this.nameHandleChange.bind(this)}
+        tokenHandleChange={this.tokenHandleChange.bind(this)}
+        handleSubmit={this.handleSubmit.bind(this)}
+        nameValue={this.state.nameValue}
+        tokenValue={this.state.tokenValue}
+        />
+      )
+      case("RepoOverview"): return <RepoOverview
+        repos={this.state.repos}
+        onCardClicked={this.onCardClicked.bind(this)}
+      />
+      case("GraphPage"): return <GraphPage/>
+    }
+  }
+
   render() {
-    return (
-      <Router>
-        <div>
-          {/*<Navbar>
-            <Navbar.Group align={Alignment.LEFT}>
-              <Navbar.Heading>GitGraph</Navbar.Heading>
-              <Navbar.Divider />
-              <Link to="/repooverview">
-                <Button className="bp3-minimal" text="Projects" />
-              </Link>
-              <Link to="/login">
-                <Button className="bp3-minimal" text="Account" />
-              </Link>
-              <Link to="/signup">
-                <Button className="bp3-minimal" text="Settings" />
-              </Link>
-              <Link to="/graphpage">
-                <Button className="bp3-minimal" text="GitGraph" />
-              </Link>
-            </Navbar.Group>
-          </Navbar>*/}
-          <div className="body">
-            <Route exact path="/" component={Home} />
-            <Route path="/signup" component={SignUp} />
-            <Route path="/login" component={Login} />
-            <Route path="/repooverview" component={RepoOverview} />
-            <Route path="/graphpage" component={GraphPage} />
-          </div>
-        </div>
-      </Router>
+    return(
+      <div>
+        {this.renderPage()}
+      </div>
     )
   }
 }
