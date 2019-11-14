@@ -39,8 +39,9 @@ export default class Nav extends React.Component {
     }
   }
 
-  onCardClicked(name) {
-    console.log(name)
+  onCardClicked = async (name) => {
+    const jsFiles = await gitHubApi.getFilesByUsernameAndRepoName(this.state.nameValue, name, "", this.state.tokenValue)
+    console.log(jsFiles)
   }
 
   renderPage(){
