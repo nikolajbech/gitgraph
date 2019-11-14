@@ -32,15 +32,9 @@ export default class GraphPage extends React.Component {
     };
   }
 
-  handleFileChange = async (e) => {
-    const filelist = e.target.files
-    for (let i = 0; i < filelist.length; i++) {
-      if (filelist[i].name.endsWith('.js')) {
-        const reader = new FileReader()
-        reader.onload = event => this.analyseFileAndReturnNode(event, filelist[i].name)
-        reader.onerror = error => console.log(error)
-        await reader.readAsText(filelist[i])
-      }
+  handleFileChange = async (files) => {
+    for (let i = 0; i < files.length; i++) {
+      this.analyseFileAndReturnNode(files, files[i].name)
     }
   }
 
@@ -113,14 +107,6 @@ export default class GraphPage extends React.Component {
 
     return (
       <div>
-        <div>
-          <button onClick={() => {
-            const gData = this.createTree(this.state.nodes)
-            console.log(gData)
-            this.setState({ gData })
-          }}>Update graph</button>
-          <input style={{ color: '#333' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
-        </div>
         {<ForceGraph2D
             graphData={gData}
             linkWidth={2}

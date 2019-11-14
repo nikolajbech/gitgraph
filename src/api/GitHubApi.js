@@ -10,7 +10,7 @@ class GitHubApi {
     
   getFilesByUsernameAndRepoName = async (username, reponame, path, token) => {
     return new Promise( async (resolve, reject) => {
-      const fileRawsUrls = []
+      const rawFiles = []
       const url = `https://api.github.com/repos/${username}/${reponame}/contents/${path}`
       await fetch(url, {header: {"headers":{"Authorization": `Bearer ${token}`}}})
       .then(response => response.json())
@@ -18,25 +18,29 @@ class GitHubApi {
         data.forEach( async (obj) => {
           if (obj.type === "file") {
             if (obj.name.endsWith(".js")){
-              fileRawsUrls.push(obj.download_url)
-              console.log(obj.download_url)
+              const file = await this.getFileByRawURL(obj.download_url, token)
+              console.log(file)
+              rawFiles.push(file)
             }
           } else if (obj.type === "dir") {
             const newPath = path + obj.name + "/"
-            const getFileRawsUrls = await this.getFilesByUsernameAndRepoName(username, reponame, newPath)
-            fileRawsUrls.concat(getFileRawsUrls)
-            resolve(fileRawsUrls)
+            const getrawFiles = await this.getFilesByUsernameAndRepoName(username, reponame, newPath)
+            rawFiles.concat(getrawFiles)
+            resolve(rawFiles)
           }
         })
       })
     })
   }
 
-  getFileByRawURL(rawURL, token){
-    fetch(rawURL,{header: {"headers":{"Authorization": `Bearer ${token}`}}})
-    .then(response => response.json())
-    .then(data => {console.log(data)})
+  getFileByRawURL = async (rawURL, token) => {
+    return new Promise( async (resolve, reject) => {
+      fetch(rawURL,{header: {"headers":{"Authorization": `Bearer ${token}`}}})
+      .then(function (response){return response.text()})
+      .then(function (response){resolve(response)})
+    })
   }
+
 }
 
 const gitHubApi = new GitHubApi()

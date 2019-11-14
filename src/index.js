@@ -13,8 +13,8 @@ export default class Nav extends React.Component {
     super(props)
     this.state = {
       currentPage: "Home",
-      nameValue: 'nikolajbech',
-      tokenValue: '96cc711d856507f2ec65cf313bf9697d46bc062a',
+      nameValue: '',
+      tokenValue: '',
       repos: null
     }
   }
@@ -41,6 +41,7 @@ export default class Nav extends React.Component {
 
   onCardClicked = async (name) => {
     const jsFiles = await gitHubApi.getFilesByUsernameAndRepoName(this.state.nameValue, name, "", this.state.tokenValue)
+    console.log("Done fetchig")
     console.log(jsFiles)
   }
 
@@ -66,6 +67,9 @@ export default class Nav extends React.Component {
   render() {
     return(
       <div>
+        {this.state.currentPage != "Home" && <div>
+          <p>HEADER</p>
+        </div>}
         {this.renderPage()}
       </div>
     )
