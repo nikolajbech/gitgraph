@@ -3,49 +3,51 @@ import { ForceGraph3D, ForceGraph2D } from 'react-force-graph';
 import '../styles/GraphPage.css'
 import Node from '../components/Node'
 
+const defaultGraph = {
+  "nodes": [
+    {
+      "id": "id1",
+      "name": "App.js",
+      "val": 10
+    },
+    {
+      "id": "id2",
+      "name": "Component2.js",
+      "val": 10
+    }
+  ],
+  "links": [
+    {
+      "source": "id1",
+      "target": "id2"
+    }
+  ]
+}
+
 export default class GraphPage extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef()
     this.state = {
-      gData: {
-        "nodes": [
-          {
-            "id": "id1",
-            "name": "App.js",
-            "val": 10
-          },
-          {
-            "id": "id2",
-            "name": "Component2.js",
-            "val": 10
-          }
-        ],
-        "links": [
-          {
-            "source": "id1",
-            "target": "id2"
-          }
-        ]
-      },
+      gData: defaultGraph,
       nodes: []
     };
   }
 
-  handleFileChange = async (files) => {
-    for (let i = 0; i < files.length; i++) {
-      this.analyseFileAndReturnNode(files, files[i].name)
-    }
+  handleFileChange = async (nodes) => {
+    //console.log("Was updated", nodes)
+    this.setState({gData: defaultGraph})
+    nodes.forEach((node) => {
+      //console.log(node.filename)
+      this.analyseFileAndReturnNode(node.text, node.filename)
+    })
   }
 
-  analyseFileAndReturnNode(event, fileName) {
-    const node = new Node(fileName.split(".")[0])
-    let words = event.target.result
-      .replace(/\"/g, '\'')
-      .replace(/ /g, ',')
-      .replace(/\n/g, ',')
-      .split(',')
+  analyseFileAndReturnNode(wordsIn, fileName) {
+    const node = new Node(fileName)
+    let words = wordsIn.replace(/\"/g, '\'').replace(/ /g, ',').replace(/\n/g, ',').split(',')
 
+    console.log(words)
     let lookForDependency = false
     words.forEach((word) => {
       if (word === 'import') lookForDependency = true
@@ -103,7 +105,7 @@ export default class GraphPage extends React.Component {
   }
 
   render() {
-    let gData = this.state.gData
+    let gData = this.createTree(this.state.nodes)
 
     return (
       <div>

@@ -7,15 +7,18 @@ import Home from './routes/Home'
 import RepoOverview from './routes/RepoOverview'
 import GraphPage from './routes/GraphPage'
 import gitHubApi from './api/GitHubApi'
+import Topbar from './components/Topbar'
 
 export default class Nav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPage: "Home",
-      nameValue: '',
+      currentPage: "home",
+      nameValue: 'nikolajbech',
       tokenValue: '',
-      repos: null
+      breadcrumbs: '',
+      repos: null,
+      nodes: []
     }
   }
   
@@ -33,21 +36,36 @@ export default class Nav extends React.Component {
     try{
       repos = await gitHubApi.getReposByUsername(this.state.nameValue, this.state.tokenValue)
       console.log(repos)
-      this.setState({repos, currentPage: 'RepoOverview'})
+      this.setState({repos, currentPage: 'repos', breadcrumbs: this.state.nameValue + '/repos'})
     } catch(e) {
       console.log(e)
     }
   }
 
   onCardClicked = async (name) => {
-    const jsFiles = await gitHubApi.getFilesByUsernameAndRepoName(this.state.nameValue, name, "", this.state.tokenValue)
+    const jsFiles = await gitHubApi.getFilesByUsernameAndRepoName(this.state.nameValue, name, "", this.state.tokenValue, this.parseNodes.bind(this), this.forceUpdate.bind(this))
     console.log("Done fetchig")
-    console.log(jsFiles)
+    this.setState({currentPage: 'graph', breadcrumbs: this.state.nameValue + '/repos/' + name})
+  }
+
+  forceUpdate () {
+    //this.graph.handleFileChange()
+  }
+
+  parseNodes (filename, text){
+    //console.log(filename, text)
+    let nodes = this.state.nodes
+    nodes.push({
+      filename: filename,
+      text: text
+    })
+    this.graph.handleFileChange(nodes)
+    //this.setState({nodes})
   }
 
   renderPage(){
     switch(this.state.currentPage){
-      case("Home"): return (
+      case("home"): return (
         <Home
         nameHandleChange={this.nameHandleChange.bind(this)}
         tokenHandleChange={this.tokenHandleChange.bind(this)}
@@ -56,19 +74,19 @@ export default class Nav extends React.Component {
         tokenValue={this.state.tokenValue}
         />
       )
-      case("RepoOverview"): return <RepoOverview
+      case("repos"): return <RepoOverview
         repos={this.state.repos}
         onCardClicked={this.onCardClicked.bind(this)}
       />
-      case("GraphPage"): return <GraphPage/>
+      case("graph"): return <GraphPage ref={ref => (this.graph = ref)} />
     }
   }
 
   render() {
     return(
       <div>
-        {this.state.currentPage != "Home" && <div>
-          <p>HEADER</p>
+        {this.state.currentPage != "home" && <div>
+          <Topbar breadcrumbs={this.state.breadcrumbs}/>
         </div>}
         {this.renderPage()}
       </div>
