@@ -1,67 +1,53 @@
 import React from 'react';
-import { ForceGraph3D } from 'react-force-graph';
+import { ForceGraph3D, ForceGraph2D } from 'react-force-graph';
 import '../styles/GraphPage.css'
 import Node from '../components/Node'
 
+const defaultGraph = {
+  "nodes": [
+    {
+      "id": "id1",
+      "name": "App.js",
+      "val": 10
+    },
+    {
+      "id": "id2",
+      "name": "Component2.js",
+      "val": 10
+    }
+  ],
+  "links": [
+    {
+      "source": "id1",
+      "target": "id2"
+    }
+  ]
+}
 
 export default class GraphPage extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef()
     this.state = {
-      gData: {
-        "nodes": [
-          {
-            "id": "id1",
-            "name": "App.js",
-            "val": 10
-          },
-          {
-            "id": "id2",
-            "name": "Component2.css",
-            "val": 10
-          },
-          {
-            "id": "id3",
-            "name": "Component5.hello",
-            "val": 10
-          }
-        ],
-        "links": [
-          {
-            "source": "id1",
-            "target": "id2"
-          },
-          {
-            "source": "id2",
-            "target": "id3"
-          }
-        ]
-      },
+      gData: defaultGraph,
       nodes: []
     };
   }
 
-  handleFileChange = async (e) => {
-    const filelist = e.target.files
-    for (let i = 0; i < filelist.length; i++) {
-      if (filelist[i].name.endsWith('.js')) {
-        const reader = new FileReader()
-        reader.onload = event => this.analyseFileAndReturnNode(event, filelist[i].name)
-        reader.onerror = error => console.log(error)
-        await reader.readAsText(filelist[i])
-      }
-    }
+  handleFileChange = async (nodes) => {
+    //console.log("Was updated", nodes)
+    this.setState({gData: defaultGraph, nodes: []})
+    nodes.forEach((node) => {
+      //console.log(node.filename)
+      this.analyseFileAndReturnNode(node.text, node.filename)
+    })
   }
 
-  analyseFileAndReturnNode(event, fileName) {
-    const node = new Node(fileName.split(".")[0])
-    let words = event.target.result
-      .replace(/\"/g, '\'')
-      .replace(/ /g, ',')
-      .replace(/\n/g, ',')
-      .split(',')
+  analyseFileAndReturnNode(wordsIn, fileName) {
+    const node = new Node(fileName)
+    let words = wordsIn.replace(/\"/g, '\'').replace(/ /g, ',').replace(/\n/g, ',').split(',')
 
+    console.log(words)
     let lookForDependency = false
     words.forEach((word) => {
       if (word === 'import') lookForDependency = true
@@ -133,27 +119,14 @@ export default class GraphPage extends React.Component {
 
  
   render() {
-    let gData = this.state.gData
-    const GROUPS = 2;
+    let gData = this.createTree(this.state.nodes)
+
     return (
       <div>
-        <div>
-          <button onClick={() => {
-            const gData = this.createTree(this.state.nodes)
-            console.log(gData)
-            this.setState({ gData })
-          }}>Update graph</button>
-          {/* Change node colors */}
-          <input style={{ color: '#000' }} directory="" webkitdirectory="" type="file" onChange={this.handleFileChange} />
-       
-        </div>                    
-            {          
-              <ForceGraph3D              
-                graphData={gData}
-                linkWidth={2}                  
-                nodeAutoColorBy={n => n.name.split('.')[1]}          
-              />
-            }
+        {<ForceGraph2D
+            graphData={gData}
+            linkWidth={2}
+          />}
       </div>
     )
   }
