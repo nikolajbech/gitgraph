@@ -36,7 +36,7 @@ export default class GraphPage extends React.Component {
 
   handleFileChange = async (nodes) => {
     //console.log("Was updated", nodes)
-    this.setState({gData: defaultGraph})
+    this.setState({gData: defaultGraph, nodes: []})
     nodes.forEach((node) => {
       //console.log(node.filename)
       this.analyseFileAndReturnNode(node.text, node.filename)
