@@ -15,7 +15,7 @@ export default class Nav extends React.Component {
     this.state = {
       currentPage: "home",
       nameValue: 'nikolajbech',
-      tokenValue: 'c13106518f7ebd038ee5fb72e2db3eb65cb6dbc9',
+      tokenValue: '',
       breadcrumbs: '',
       repos: null,
       nodes: []
