@@ -21,26 +21,23 @@ class GitHubApi {
 
       if (token) {
         headers["Authorization"] = `Token ${token}`;
-      }/* else{
-        alert("No GitHub token is provided.");
-        reject("No GitHub token is provided.");
-      } */
+      }     
 
       const url = `https://api.github.com/repos/${username}/${reponame}/contents/${path}`
       fetch(url, {headers,})
       .then(response => response.json())
       .then(data => {
         data.forEach( async (obj) => {
-          if (obj.type === "file") {
-            if (obj.name.endsWith(".js")){
-              const name = obj.name.replace(".js","")
-              //console.log(name)
-              const file = await this.getFileByRawURL(obj.download_url, token)
-              //console.log(file)
-              addNode(name, file)
-              forceUpdate()
-              rawFiles.push({[name]: file})
-            }
+          if (obj.type === "file") {           
+              /* if (obj.name.endsWith(".js")){ */
+            const name = obj.name/* .replace(/\.[^/.]+$/, "") */;
+              /*console.log(name) */
+            const file = await this.getFileByRawURL(obj.download_url, token)
+            //console.log(file)
+            addNode(name, file)
+            forceUpdate()
+            rawFiles.push({[name]: file})
+            /* } */
           } else if (obj.type === "dir") {
             const newPath = path + obj.name + "/"
             const getrawFiles = await this.getFilesByUsernameAndRepoName(username, reponame, newPath, token, addNode, forceUpdate)
@@ -48,6 +45,7 @@ class GitHubApi {
           }
         })
       })
+
       resolve(rawFiles)
     })
   }
