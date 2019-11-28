@@ -6,12 +6,15 @@ const logo = 'https://firebasestorage.googleapis.com/v0/b/gitgraphpro.appspot.co
 export default class Home extends React.Component {
 
   render() {
+    const link = <a href={'https://github.com/settings/tokens'} target="_blank">your token.</a>
     return (
       <div className={"bg"}>
         <div className={"signin"}>
           <img
             src={logo}
             style={{width: 300, height: 80, marginTop: 30, marginBottom: 20}}/>
+          <p style={{paddingLeft: 20, paddingRight: 20, fontSize: 12}}>
+            GitGraph® is a tool for developers to visualize git repositories for react projects. Log in with your GitHub username and {link}</p>
           <input
             type="text"
             name="name"
