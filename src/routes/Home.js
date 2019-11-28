@@ -3,6 +3,7 @@ import '../styles/Home.css';
 
 const logo = 'https://firebasestorage.googleapis.com/v0/b/gitgraphpro.appspot.com/o/logoHigh.png?alt=media&token=e9a1bcc9-819e-43c3-9435-b3c9770c912d'
 
+
 export default class Home extends React.Component {
 
   render() {

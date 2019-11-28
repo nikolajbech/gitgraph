@@ -32,8 +32,17 @@ export default class Nav extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    let repos = null
+    let repos = null;  
     try{
+      if (this.state.nameValue === '' || this.state.tokenValue === null ) {    
+        alert('Please enter your github username.')
+        return;
+      }
+      if (this.state.tokenValue === '' || this.state.tokenValue === null) {  
+        let alert_repo = 'please provide a github token. You can create one here: \nhttps://github.com/settings/tokens';      
+        alert(alert_repo);
+        return;        
+      }     
       repos = await gitHubApi.getReposByUsername(this.state.nameValue, this.state.tokenValue)
       console.log(repos)
       this.setState({repos, currentPage: 'repos', breadcrumbs: this.state.nameValue + '/repos'})
