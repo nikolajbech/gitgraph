@@ -108,6 +108,20 @@ export default class GraphPage extends React.Component {
     }
   }
 
+ 
+  setColor(node){
+    console.log("node split " + node.split(".")[-1]);
+    return node.split(".")[-1]; 
+    /* if (extension.endsWith('.js')){
+      return '#333';
+    }
+    if (extension.endsWith('.css')){
+      return '#222';
+    }
+    else return '#000'; */
+  }
+
+ 
   render() {
     let gData = this.createTree(this.state.nodes)
 
