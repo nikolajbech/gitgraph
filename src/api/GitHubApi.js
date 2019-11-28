@@ -18,9 +18,14 @@ class GitHubApi {
       const rawFiles = []
       //console.log(token)
       let headers = {"Content-Type": "application/json"};
+
       if (token) {
         headers["Authorization"] = `Token ${token}`;
-      }
+      }/* else{
+        alert("No GitHub token is provided.");
+        reject("No GitHub token is provided.");
+      } */
+
       const url = `https://api.github.com/repos/${username}/${reponame}/contents/${path}`
       fetch(url, {headers,})
       .then(response => response.json())
