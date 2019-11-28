@@ -5,8 +5,9 @@ export default class Node {
      * @param {*} dependecies is import libraries from the file
      */
     constructor(fileName) {
-        this.nodes = fileName
-        this.dependecies = []
+        this.nodes = fileName;
+        this.dependecies = [];
+         
     }
 
     addDependency(dependecy) {
@@ -14,10 +15,13 @@ export default class Node {
     }
 
     getNode() {
-        return this.nodes
+        return this.nodes;
     }
 
     getLinks() {
-        return this.dependecies
+        return this.dependecies;
+    }
+    getValue(){
+        return this.dependecies.length;
     }
 }

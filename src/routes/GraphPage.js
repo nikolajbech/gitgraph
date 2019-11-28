@@ -34,10 +34,6 @@ export default class GraphPage extends React.Component {
     };
   }
 
-  componentDidMount(){
-    this.setState({gData: defaultGraph, nodes: []})
-  }
-
   handleFileChange = async (nodes) => {
     //console.log("Was updated", nodes)
     this.setState({gData: defaultGraph, nodes: []})
@@ -48,7 +44,7 @@ export default class GraphPage extends React.Component {
   }
 
   analyseFileAndReturnNode(wordsIn, fileName) {
-    const node = new Node(fileName)
+    const node = new Node(fileName) 
     let words = wordsIn.replace(/\"/g, '\'').replace(/ /g, ',').replace(/\n/g, ',').split(',')
 
     console.log(words)
@@ -83,7 +79,7 @@ export default class GraphPage extends React.Component {
     nodesFromFiles.forEach((node) => {
       const nodeName = node.nodes
       node.getLinks().forEach((link) => {
-        console.log(link, node.nodes, availableNodes.includes(link))
+       /*  console.log(link, node.nodes, availableNodes.includes(link)) */
         if (availableNodes.includes(link)) {
           linksArray.push({
             "source": nodeName,
@@ -92,13 +88,16 @@ export default class GraphPage extends React.Component {
         }
       })
     })
-
+    nodesFromFiles.forEach((node) => {
+      console.log("number of dependencies:" + node.getValue() );
+    })
     //Create nodes:
     const nodesNameToReturn = []
     nodesFromFiles.forEach((node) => {
       nodesNameToReturn.push({
         "name": node.nodes,
-        "id": node.nodes
+        "id": node.nodes,
+        "val" : node.getValue()   
       })
     })
 
@@ -108,29 +107,15 @@ export default class GraphPage extends React.Component {
     }
   }
 
- 
-  setColor(node){
-    console.log("node split " + node.split(".")[-1]);
-    return node.split(".")[-1]; 
-    /* if (extension.endsWith('.js')){
-      return '#333';
-    }
-    if (extension.endsWith('.css')){
-      return '#222';
-    }
-    else return '#000'; */
-  }
 
- 
   render() {
     let gData = this.createTree(this.state.nodes)
-
     return (
       <div>
         {<ForceGraph2D
-            backgroundColor={"#EFEFEF"}
-            graphData={gData}
+            graphData={gData}  
             linkWidth={2}
+            nodeAutoColorBy={n => n.name.split('.')[1]}            
           />}
       </div>
     )
