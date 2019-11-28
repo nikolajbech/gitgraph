@@ -34,6 +34,10 @@ export default class GraphPage extends React.Component {
     };
   }
 
+  componentDidMount(){
+    this.setState({gData: defaultGraph, nodes: []})
+  }
+
   handleFileChange = async (nodes) => {
     //console.log("Was updated", nodes)
     this.setState({gData: defaultGraph, nodes: []})
@@ -110,6 +114,7 @@ export default class GraphPage extends React.Component {
     return (
       <div>
         {<ForceGraph2D
+            backgroundColor={"#EFEFEF"}
             graphData={gData}
             linkWidth={2}
           />}

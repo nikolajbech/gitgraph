@@ -15,7 +15,7 @@ export default class Nav extends React.Component {
     this.state = {
       currentPage: "home",
       nameValue: 'nikolajbech',
-      tokenValue: 'c13106518f7ebd038ee5fb72e2db3eb65cb6dbc9',
+      tokenValue: '',
       breadcrumbs: '',
       repos: null,
       nodes: []
@@ -63,6 +63,10 @@ export default class Nav extends React.Component {
     //this.setState({nodes})
   }
 
+  navigateTo(page){
+    this.setState({currentPage: page})
+  }
+
   renderPage(){
     switch(this.state.currentPage){
       case("home"): return (
@@ -86,7 +90,7 @@ export default class Nav extends React.Component {
     return(
       <div>
         {this.state.currentPage != "home" && <div>
-          <Topbar breadcrumbs={this.state.breadcrumbs}/>
+          <Topbar navigateTo={this.navigateTo.bind(this)} breadcrumbs={this.state.breadcrumbs}/>
         </div>}
         {this.renderPage()}
       </div>
