@@ -1,3 +1,5 @@
+import { random } from "node-forge";
+
 export default class Node {
 
     /**
@@ -5,9 +7,9 @@ export default class Node {
      * @param {*} dependecies is import libraries from the file
      */
     constructor(fileName) {
-        this.nodes = fileName;
-        this.dependecies = [];
-         
+        this.nodes = fileName.substring(0, fileName.lastIndexOf("."));
+        this.dependecies = []; 
+        this.extension = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length);   
     }
 
     addDependency(dependecy) {
@@ -23,5 +25,8 @@ export default class Node {
     }
     getValue(){
         return this.dependecies.length;
+    }
+    getExtension(){        
+        return this.extension;
     }
 }

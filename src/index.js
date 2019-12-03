@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-import Home from './routes/Home'
-import RepoOverview from './routes/RepoOverview'
-import GraphPage from './routes/GraphPage'
-import gitHubApi from './api/GitHubApi'
-import Topbar from './components/Topbar'
+import Home from './routes/Home.js'
+import RepoOverview from './routes/RepoOverview.js'
+import GraphPage from './routes/GraphPage.js'
+import gitHubApi from './api/GitHubApi.js'
+import Topbar from './components/Topbar.js'
 
 export default class Nav extends React.Component {
   constructor(props) {

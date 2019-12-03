@@ -12,7 +12,7 @@ class GitHubApi {
       .then(data => {resolve(data)})
     })
   }
-    
+  
   getFilesByUsernameAndRepoName = async (username, reponame, path, token, addNode, forceUpdate) => {
     return new Promise( async (resolve, reject) => {
       const rawFiles = []
@@ -30,7 +30,7 @@ class GitHubApi {
         data.forEach( async (obj) => {
           if (obj.type === "file") {           
               /* if (obj.name.endsWith(".js")){ */
-            const name = obj.name/* .replace(/\.[^/.]+$/, "") */;
+            const name = obj.name/*    */;
               /*console.log(name) */
             const file = await this.getFileByRawURL(obj.download_url, token)
             //console.log(file)
@@ -45,7 +45,7 @@ class GitHubApi {
           }
         })
       })
-
+      console.log("raw output files: " + rawFiles);
       resolve(rawFiles)
     })
   }

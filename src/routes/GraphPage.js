@@ -50,7 +50,9 @@ export default class GraphPage extends React.Component {
   createTree(nodesFromFiles) {
 
     const availableNodes = []
-    nodesFromFiles.forEach((node) => availableNodes.push(node.getNode()))
+    nodesFromFiles.forEach((node) => {
+      availableNodes.push(node.getNode())
+    })
     console.log("avail:" + availableNodes)
 
     //Create links:
@@ -73,6 +75,7 @@ export default class GraphPage extends React.Component {
       /* console.log("node name"+ node.getNode().replace(/\.[^/.]+$/, "")); */
       nodesNameToReturn.push({
         "name": node.getNode(),
+        "extension": node.getExtension(),
         "id": node.nodes,
         "val" : node.getValue()   
       })
@@ -87,12 +90,13 @@ export default class GraphPage extends React.Component {
 
   render() {
     let gData = this.createTree(this.state.nodes)
+  
     return (
       <div>
         {<ForceGraph2D
             graphData={gData}  
             linkWidth={2}
-            nodeAutoColorBy={n => n.name.split('.')[1]}            
+            nodeAutoColorBy={n => n.extension}            
           />}
       </div>
     )
