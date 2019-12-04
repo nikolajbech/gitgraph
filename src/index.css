@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #EFEFEF;
 }
 
 code {
@@ -17,7 +18,7 @@ code {
 }
 
 .menu {
-  background-color: #eeeeee;
+  background-color: #EFEFEF;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
@@ -27,7 +28,7 @@ code {
 
 .body {
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #EFEFEF;
   min-height: 100vh;
   display: flex;
   justify-content: center;

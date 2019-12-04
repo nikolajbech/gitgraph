@@ -1,12 +1,15 @@
 import React from 'react'
-import { Button, Card, Spinner, Elevation } from "@blueprintjs/core";
 import '../styles/RepoOverview.css'
 
 export default class RepoOverview extends React.Component {
-
+  
   renderCard(name){
     return(
-      <a className="card">
+      <a
+        className="card"
+        key={name}
+        onClick={() => this.props.onCardClicked(name)}
+      >
         <p style={{color: '#303030'}}>{name}</p>
       </a>
     )
@@ -16,12 +19,11 @@ export default class RepoOverview extends React.Component {
     return (
       <div className="box">
         <div className="grid">
-          {this.renderCard("Repo 1")}
-          {this.renderCard("Repo 2")}
-          {this.renderCard("Repo 3")}
-          {this.renderCard("Repo 4")}
-          {this.renderCard("Repo 5")}
-          {this.renderCard("Repo 6")}
+          {this.props.repos && this.props.repos.map((repo) => {
+            return(
+              this.renderCard(repo.name)
+            )
+          })}
         </div>
       </div>
     )

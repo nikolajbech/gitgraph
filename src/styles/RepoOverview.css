@@ -3,10 +3,13 @@
     flex-wrap: wrap;
     margin: auto;
     justify-content: center;
+    align-self: 'center';
 }
 
 .box {
     margin: auto;
+    background-color: #EFEFEF;
+    height: 100vh;
 }
 
 .card {
